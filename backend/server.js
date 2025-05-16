@@ -14,12 +14,13 @@ app.use(express.json());
 app.use("/api/products", productRoutes);
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/online/dist")));
-  app.get("*", (req, res) =>
+  app.get("*", (req, res) => {
     res.sendFile(
       path.resolve(__dirname, "frontend", "online", "dist", "index.html")
-    )
-  );
+    );
+  });
 }
+
 app.listen(5000, () => {
   connectDB();
   console.log("server running on localhost:5000 hello");
