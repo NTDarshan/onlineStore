@@ -10,10 +10,10 @@ const router = express.Router();
 //Get all product
 router.get("/getAllProducts", GetAllProduct);
 //update product
-router.put("/updateProduct/:id", UpdateProduct);
+router.put("/updateProduct/:pid", UpdateProduct);
 //create update
 router.post("/createProduct", CreateProduct);
 //delete product
-router.delete("/deleteProduct/:id", DeleteProduct);
+router.delete("/deleteProduct/:pid", DeleteProduct);
 
 export default router;
