@@ -3,21 +3,25 @@ import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import productRoutes from "./routes/product.routes.js";
 import path from "path";
+import { fileURLToPath } from "url";
 dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const rootDir = path.resolve(__dirname, "..");
+
 const app = express();
-const __dirname = path.resolve();
 app.use(express.json());
-
-//GET all products
-
 app.use("/api/products", productRoutes);
+
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/frontend/online/dist")));
-  app.get("/*", (req, res) => {
-    res.sendFile(
-      path.resolve(__dirname, "frontend", "online", "dist", "index.html")
-    );
+  const staticDir = path.join(rootDir, "frontend", "online", "dist");
+  app.use(express.static(staticDir));
+  app.use((req, res, next) => {
+    if (req.url.startsWith("/api/")) {
+      return next();
+    }
+    res.sendFile(path.join(staticDir, "index.html"));
   });
 }
 
