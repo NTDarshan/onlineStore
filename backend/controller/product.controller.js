@@ -13,13 +13,13 @@ export const GetAllProduct = async (req, res) => {
 
 //updating productuct api
 export const UpdateProduct = async (req, res) => {
-  const { id } = req.params;
+  const { pid } = req.params;
   const product = req.body;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+  if (!mongoose.Types.ObjectId.isValid(pid)) {
     return res.status(400).json({ success: false, message: "Invalid ID" });
   }
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(id, product, {
+    const updatedProduct = await Product.findByIdAndUpdate(pid, product, {
       new: true,
     });
     res.status(200).json({
